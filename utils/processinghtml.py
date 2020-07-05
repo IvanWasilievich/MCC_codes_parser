@@ -25,12 +25,12 @@ def extract_and_save_db_main_page():
     main_page_soup.find("table", id_="all-mcc-table")
     table_rows = main_page_soup.find("table", id="all-mcc-table").tbody.find_all('tr')
 
-    for table_row in table_rows:
+    for i,table_row in enumerate(table_rows):
         mcc_code = table_row.find("a").b.text
         mcc_name = table_row.find_all("td")[1].b.text
         mcc_group = table_row.find_all("td")[2].text if table_row.find_all("td")[2].text else None
         mcc_update_date = table_row.find_all("td")[-1].text
-        current_code = MCC_code(None, mcc_code, mcc_name, mcc_group, mcc_update_date)
+        current_code = MCC_code(mcc_code, mcc_name, mcc_group, mcc_update_date)
         engine.execute(all_mcc.insert().values(current_code))
         codes_deque.append(mcc_code)
 
@@ -67,7 +67,7 @@ def extract_and_save_db_mcc_desc(file_name):
     if amount_marketplacements:
         start_codes_deque.append((file_name.strip('_page_html.txt'), amount_marketplacements))
     
-    current_mcc = MCC_description(None, file_name.strip('_page_html.txt'), 
+    current_mcc = MCC_description(file_name.strip('_page_html.txt'), 
                                            category_name_eng,
                                            mcc_desc,
                                            amount_marketplacements
@@ -86,20 +86,24 @@ def extract_and_save_db_company_info(file_name):
     search_soup_odj = BeautifulSoup(search_data_html, "lxml")
     table_rows = search_soup_odj.find("div", class_="table-responsive").tbody.find_all("tr")
     
-    for row in table_rows:
+    for num, row in enumerate(table_rows):
+        
         company_name = row.b.text
         company_code = row.find("span", class_ = "text-uppercase text-muted d-none d-md-inline noSmartLink").text if \
                                          row.find("span", class_ = "text-uppercase text-muted d-none d-md-inline noSmartLink") else None
         yandex_map_href = row.find("a", class_="search-map")['href'] if row.find("a", class_="search-map") else None
         last_update = row.find_all("td")[-1].text
         adress = row.find("span", class_="mlink").text
-        
-        current_company = Company_info(None, file_name.split("_")[0], 
+        code = file_name.split("_")[0]
+        current_company = Company_info(f"{num}_{file_name.strip('_html.txt')}", #искусственный ключ для постгреса
+                                       code, 
                                        company_name, company_code, 
                                        yandex_map_href, 
                                        last_update, 
                                        adress)
+        
         engine.execute(company_info.insert().values(current_company))
+
             
         
        

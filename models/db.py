@@ -32,12 +32,13 @@ mcc_description = Table(
 
 company_info = Table(
    'company_info', meta, 
-   Column('id', Integer, primary_key = True, autoincrement=True), 
+   Column('id', String, primary_key = True), 
    Column('MCC', String), 
    Column('company_name', String),
    Column('company_code', String),
    Column('yandex_map', String),
-   Column('last_update adress', Integer)   
+   Column('last_update', String),
+   Column('adress', String)
 )
 
 
