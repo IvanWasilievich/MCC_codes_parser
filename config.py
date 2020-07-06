@@ -15,7 +15,7 @@ MAX_RESULT_ON_SEARCH_PAGE = 20
 SHORT_SLEEP = random.randint(1, 2)
 LONG_SLEEP = random.randint(10, 15)
 
-SQL_ALCHEMY_URI = 'postgresql+psycopg2://postgres:pass@localhost/mcc_code'
+SQL_ALCHEMY_URI = 'sqlite:///mcc_code.db'
 ALCHEMY_ECHO_FLAG = False
 
 TEST_MODE = True

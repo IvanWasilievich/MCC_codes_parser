@@ -15,16 +15,14 @@ meta = MetaData()
 
 all_mcc = Table(
    'all_mcc', meta, 
-   Column('id', Integer, primary_key = True, autoincrement=True), 
-   Column('MCC', String), 
+   Column('MCC', String, primary_key = True), 
    Column('mcc_group', String),
    Column('mcc_update_date', String)
 )
 
 mcc_description = Table(
    'mcc_desc', meta, 
-   Column('id', Integer, primary_key = True, autoincrement=True), 
-   Column('MCC', String), 
+   Column('MCC', String, primary_key = True), 
    Column('category_name_eng', String),
    Column('mcc_description', String),
    Column('amount_marketplacements', Integer)   
