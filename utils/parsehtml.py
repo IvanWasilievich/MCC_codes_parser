@@ -30,8 +30,7 @@ def parse_code_pages(codes_deque):
 
         codes_deque.popleft() #удаляем код из очереди
         i+=1
-#         if not i%100:
-        print(i, code) #принтуем каждую десятую итерацию
+        print(i, code) #принтуем итерацию
         sleep(SHORT_SLEEP if i%100 else LONG_SLEEP) #ставим задержку, и на каждой 100 итерации даем длинный таймаут
 
 def parse_search_urls(start_codes_deque):
